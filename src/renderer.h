@@ -22,7 +22,7 @@ namespace osip
         Renderer& operator=(const Renderer& renderer);
         Renderer& operator=(Renderer&&) noexcept;
 
-        void render(const Scene& scene, float bias = 1e-2F, unsigned depth = 5) const noexcept;
+        void render(const Scene& scene, float bias = 1e-3F, unsigned depth = 10) const noexcept;
     };
 }
 

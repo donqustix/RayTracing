@@ -1,1 +1,1 @@
-./bin/Test
+time ./bin/Test

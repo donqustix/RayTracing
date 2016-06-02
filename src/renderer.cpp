@@ -107,8 +107,8 @@ void Renderer::Implementation::render(const Scene& scene, float bias, unsigned d
             {
                 for (unsigned l = 0; l < 4; ++l)
                 {
-                    const float x = (2.0F * (i + (k + 1.0F) * 0.25F) * invWidth - 1.0F) * angle * aspectRatio;
-                    const float y = (1.0F - 2.0F * (j + (l + 1.0F) * 0.25F) * invHeight) * angle;
+                    const float x = (2.0F * (i + (k + 0.5F) * 0.25F) * invWidth - 1.0F) * angle * aspectRatio;
+                    const float y = (1.0F - 2.0F * (j + (l + 0.5F) * 0.25F) * invHeight) * angle;
 
                     const vec3f imagePoint{x * basis.right + y * basis.up + basis.direction + cameraPosition};
                     const Ray cameraRay{cameraPosition, (imagePoint - cameraPosition).normalize()};

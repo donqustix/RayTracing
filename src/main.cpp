@@ -33,7 +33,7 @@ int main()
     scene.addLight({{-100.0F, 300.0F, -50.0F}, {1.0F, 1.0F, 1.0F}});
 
     Renderer renderer{bitmap};
-    renderer.render(scene, 1e-3F, 10);
+    renderer.render(scene);
 
     std::ofstream stream{"res/image.tga", std::ios::out | std::ios::binary};
     TGALoader tgaLoader;
