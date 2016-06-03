@@ -14,8 +14,6 @@
 using osip::Renderer;
 using osip::vec3f;
 
-#define M_PI 3.14159265358979323846
-
 namespace osip
 {
     struct Renderer::Implementation
@@ -79,7 +77,6 @@ vec3f Renderer::Implementation::trace(const Scene& scene, Ray ray, float bias, u
 
         const vec3f refl = trace(scene, reflectionRay, bias, depth - 1);
         color = refl.lerp(color, material.reflection);
-        // color += refl;
     }
 
     return color;
@@ -121,16 +118,6 @@ void Renderer::Implementation::render(const Scene& scene, float bias, unsigned d
                 }
             }
             pixelColor *= 255.0F / 16.0F;
-
-            /*
-            const float x = (2.0F * i * invWidth - 1.0F) * angle * aspectRatio;
-            const float y = (1.0F - 2.0F * j* invHeight) * angle;
-
-            const vec3f imagePoint{x * basis.right + y * basis.up + basis.direction + cameraPosition};
-            const Ray cameraRay{cameraPosition, (imagePoint - cameraPosition).normalize()};
-                    
-            pixelColor += trace(scene, cameraRay, bias, depth) * 255.0F;
-            */
 
             bitmap->setPixel(i, j, {static_cast<uint8_t>(std::min(pixelColor.getX(), 255.0F)),
                                     static_cast<uint8_t>(std::min(pixelColor.getY(), 255.0F)),
