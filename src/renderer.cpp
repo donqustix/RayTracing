@@ -14,6 +14,8 @@
 using osip::Renderer;
 using osip::vec3f;
 
+#define M_PI 3.14159265358979323846
+
 namespace osip
 {
     struct Renderer::Implementation
@@ -41,7 +43,7 @@ vec3f Renderer::Implementation::trace(const Scene& scene, Ray ray, float bias, u
     const RenderObject* const intersectedObject = scene.getIntersectedObject(ray, &intersectionPoint);
 
     if (!intersectedObject)
-        return {};
+        return {0.4F, 0.4F, 0.0F};
 
     const Material material = intersectedObject->getMaterial();
 
@@ -75,7 +77,9 @@ vec3f Renderer::Implementation::trace(const Scene& scene, Ray ray, float bias, u
         const Ray reflectionRay{intersectionPoint + normal * bias,
             ray.direction.reflect(intersectedObject->normal(intersectionPoint))};
 
-        color += trace(scene, reflectionRay, bias, depth - 1) * material.reflection;
+        const vec3f refl = trace(scene, reflectionRay, bias, depth - 1);
+        color = refl.lerp(color, material.reflection);
+        // color += refl;
     }
 
     return color;
@@ -118,6 +122,16 @@ void Renderer::Implementation::render(const Scene& scene, float bias, unsigned d
             }
             pixelColor *= 255.0F / 16.0F;
 
+            /*
+            const float x = (2.0F * i * invWidth - 1.0F) * angle * aspectRatio;
+            const float y = (1.0F - 2.0F * j* invHeight) * angle;
+
+            const vec3f imagePoint{x * basis.right + y * basis.up + basis.direction + cameraPosition};
+            const Ray cameraRay{cameraPosition, (imagePoint - cameraPosition).normalize()};
+                    
+            pixelColor += trace(scene, cameraRay, bias, depth) * 255.0F;
+            */
+
             bitmap->setPixel(i, j, {static_cast<uint8_t>(std::min(pixelColor.getX(), 255.0F)),
                                     static_cast<uint8_t>(std::min(pixelColor.getY(), 255.0F)),
                                     static_cast<uint8_t>(std::min(pixelColor.getZ(), 255.0F))});
@@ -154,7 +168,7 @@ Renderer& Renderer::operator=(Renderer&&) noexcept = default;
 
 void Renderer::render(const Scene& scene, float bias, unsigned depth) const noexcept
 {
-    assert(bias > 0.0F && depth > 0);
+    assert(bias > 0.0F && depth != 0);
 
     implementation->render(scene, bias, depth);
 }

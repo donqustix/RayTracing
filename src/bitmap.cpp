@@ -9,18 +9,16 @@ namespace osip
     struct Bitmap::Implementation
     {
         uint16_t width, height;
-        std::unique_ptr<BGR[]> data;
+        std::unique_ptr<BGR[]> data{std::make_unique<BGR[]>(width * height)};
 
-        Implementation(uint16_t width, uint16_t height) noexcept :
-            width{width}, height{height},
-            data{std::make_unique<BGR[]>(width * height)}
+        Implementation(uint16_t width, uint16_t height) :
+            width{width}, height{height}
         {
-            assert(width > 0 && height > 0);
+            assert(width != 0 && height != 0);
         }
 
-        Implementation(const Implementation& implementation) noexcept :
-            width{implementation.width}, height{implementation.height},
-            data{std::make_unique<BGR[]>(width * height)}
+        Implementation(const Implementation& implementation) :
+            width{implementation.width}, height{implementation.height}
         {
             const uint32_t dataLength = width * height;
 

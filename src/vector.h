@@ -107,6 +107,11 @@ namespace osip
             return {x * invLength, y * invLength, z * invLength};
         }
 
+        constexpr Vector lerp(const Vector& vector, const T& t) const noexcept
+        {
+            return *this * t + (T(1) - t) * vector;
+        }
+
         constexpr T dot(const Vector& vector) const noexcept
         {
             return x * vector.x + y * vector.y + z * vector.z;

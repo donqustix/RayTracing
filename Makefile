@@ -1,6 +1,6 @@
 LIBNAME = RayTracing
 CXX = g++
-CXXFLAGS = -std=c++14 -Wall -Werror
+CXXFLAGS = -std=c++14 -Wall -Wextra -static-libstdc++ -static-libgcc
 LDFLAGS =
 LDLIBS = bin/$(LIBNAME).a
 SRCS = $(filter-out src/main.cpp, $(wildcard src/*.cpp))
