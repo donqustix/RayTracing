@@ -41,7 +41,7 @@ vec3f Renderer::Implementation::trace(const Scene& scene, Ray ray, float bias, u
     const RenderObject* const intersectedObject = scene.getIntersectedObject(ray, &intersectionPoint);
 
     if (!intersectedObject)
-        return {0.4F, 0.4F, 0.0F};
+        return {1.0F, 1.0F, 1.0F};
 
     const Material material = intersectedObject->getMaterial();
 
@@ -104,12 +104,12 @@ void Renderer::Implementation::render(const Scene& scene, float bias, unsigned d
         {
             vec3f pixelColor{};
 
-            for (unsigned k = 0; k < 4; ++k)
+            for (unsigned k = 0; k < 8; ++k)
             {
-                for (unsigned l = 0; l < 4; ++l)
+                for (unsigned l = 0; l < 8; ++l)
                 {
-                    const float x = (2.0F * (i + (k + 0.5F) * 0.25F) * invWidth - 1.0F) * angle * aspectRatio;
-                    const float y = (1.0F - 2.0F * (j + (l + 0.5F) * 0.25F) * invHeight) * angle;
+                    const float x = (2.0F * (i + (k + 0.5F) / 8.0F) * invWidth - 1.0F) * angle * aspectRatio;
+                    const float y = (1.0F - 2.0F * (j + (l + 0.5F) / 8.0F) * invHeight) * angle;
 
                     const vec3f imagePoint{x * basis.right + y * basis.up + basis.direction + cameraPosition};
                     const Ray cameraRay{cameraPosition, (imagePoint - cameraPosition).normalize()};
@@ -117,7 +117,7 @@ void Renderer::Implementation::render(const Scene& scene, float bias, unsigned d
                     pixelColor += trace(scene, cameraRay, bias, depth);
                 }
             }
-            pixelColor *= 255.0F / 16.0F;
+            pixelColor *= 255.0F / 64.0F;
 
             bitmap->setPixel(i, j, {static_cast<uint8_t>(std::min(pixelColor.getX(), 255.0F)),
                                     static_cast<uint8_t>(std::min(pixelColor.getY(), 255.0F)),

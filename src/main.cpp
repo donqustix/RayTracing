@@ -1,3 +1,4 @@
+#define NDEBUG
 #include "bitmap.h"
 #include "scene.h"
 #include "renderer.h"
@@ -14,17 +15,17 @@ using namespace osip;
 
 int main()
 {
-    Bitmap bitmap{1024, 768};
+    Bitmap bitmap{640, 480};
 
     Scene scene;
     scene.addRenderObject(new Sphere{{-40.0F, -10.0F, 200.0F}, {1.0F, 0.0F, 0.0F}, 40.0F,
             {0.0F, 1.0F, 1.0F, 50.0F, 0.8F}});
-    scene.addRenderObject(new Sphere{{100.0F, 0.0F, 350.0F}, {1.0F, 0.0F, 1.0F}, 50.0F,
-            {0.0F, 1.0F, 1.0F, 50.0F, 0.3F}});
+    scene.addRenderObject(new Sphere{{150.0F, 0.0F, 450.0F}, {1.0F, 0.0F, 1.0F}, 50.0F,
+            {0.0F, 1.0F, 1.0F, 50.0F, 0.7F}});
     scene.addRenderObject(new Sphere{{40.0F, -40.0F, 150.0F}, {0.0F, 0.0F, 1.0F}, 10.0F,
-            {0.0F, 1.0F, 1.0F, 50.0F, 0.2F}});
+            {0.0F, 1.0F, 1.0F, 50.0F, 0.8F}});
     scene.addRenderObject(new Sphere{{100.0F, -44.0F, 180.0F}, {1.0F, 1.0F, 0.0F}, 6.0F,
-            {0.0F, 1.0F, 1.0F, 50.0F, 0.4F}});
+            {0.0F, 1.0F, 1.0F, 50.0F, 0.8F}});
     scene.addRenderObject(new Sphere{{-30.0F, -35.0F, 120.0F}, {0.0F, 1.0F, 1.0F}, 15.0F,
             {0.0F, 1.0F, 1.0F, 50.0F, 0.6F}});
     scene.addRenderObject(new Plane{{0.0F, -50.0F, 0.0F}, {0.0F, -1.0F, 0.0F}, {0.6F, 0.6F, 0.6F},
